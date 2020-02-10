@@ -1,3 +1,5 @@
+existing_users=[]
+
 class User:
     def __init__(self, idUser, data=[], node=[]):
         self.idUser = idUser
@@ -5,8 +7,9 @@ class User:
         self.node = node
         
         self.node[0].nodeList.append([self,self.node[1]])
+        existing_users.append(self)
         
-        self.place_data()
+        #self.place_data()
         
     
     def arrange_data(self):
@@ -90,6 +93,7 @@ class User:
         table3 = []
         for i in range(len(table1)):
             table3.append(table1[i] + table2[i])
+        print(table1,table2,table3)
         #------------------------#
         #------------------------#check if there is occurences
         minimum = min(table3)
@@ -117,6 +121,19 @@ class User:
         is the closest to the user
         """
         arrangedData = self.arrange_data()
+        otherUserData = []
+        for u in existing_users:
+            if u != self:
+                otherUserData.append([u,u.data])
+        
+        for d in arrangedData:
+            for ou in otherUserData:
+                for od in ou[1]:        
+                    if d == od:
+                        self.meeting_point(ou[0],od.size).dataList.append(d)
+                        d.nodeLocation = self.meeting_point(ou[0],od.size)
+                        print('data ',d.idData,' dans noeud : ',d.nodeLocation.idNode)
+        
         for d in arrangedData:
             if d.nodeLocation != None:
                 pass
@@ -125,6 +142,7 @@ class User:
                     if d.size <= n.free_space():
                         n.dataList.append(d)
                         d.nodeLocation = n
+                        print('data ',d.idData,' dans noeud : ',d.nodeLocation.idNode)
                         break
 
 

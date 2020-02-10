@@ -82,7 +82,7 @@ class Node:
                 return n[0]
     
     
-    def time_to_node(self, target_id_node, visited_nodes=[], nodes_to_visit=[], time=0, max_time=9999999999999):
+    def time_to_node(self, target_id_node, visited_nodes=[], nodes_to_visit=[], time=0, max_time=None):
         """
         this method takes a target node id in parameter and return the time to get to
         the target node from the node
@@ -93,8 +93,12 @@ class Node:
         if not len(nodes_to_visit) == 0:
             del nodes_to_visit[0]
         
-        if self.idNode == target_id_node and time < max_time:
-            max_time = time
+        if self.idNode == target_id_node:
+            if max_time == None:
+                max_time = time
+            elif time < max_time:
+                max_time = time
+            
         
         visited_nodes.append(self)
         
